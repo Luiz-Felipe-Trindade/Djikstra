@@ -6,34 +6,40 @@
 using namespace std;
 
 
-struct Par{
+struct Aresta{
     int vertDestino, valRisco;
 };
 
 struct Comparador {
-    bool operator()(const Par &a, const Par &b) {
+    bool operator()(const Aresta &a, const Aresta &b) {
         return a.valRisco > b.valRisco;
     }
 };
 
 
-vector<int> dijkstra(int V, vector<vector<Par>> grafo, int origem) {
+vector<int> dijkstra(int V, vector<vector<Aresta>> grafo, int origem) {
 
-    vector<int> distancias(V, INT_MAX);
-    distancias[origem] = 0;
-    priority_queue<Par, vector<Par>, Comparador> pq;
+    vector<int> vetRiscos(V, INT_MAX);
+    vetRiscos[origem] = 0;
+    priority_queue<Aresta, vector<Aresta>, Comparador> pq;
     pq.push({origem, 0});
 
     while(!pq.empty()) {
-        Par atual = pq.top();
+        Aresta atual = pq.top();
         pq.pop();
 
         int vertDestAtual = atual.vertDestino;
         int riscoDestAtual = atual.valRisco;
 
-        if(riscoDestAtual > distancias[vertDestAtual]) continue;
+        if(riscoDestAtual > vetRiscos[vertDestAtual]) continue;
 
+        for(auto &e : grafo[vertDestAtual]) {
+            int vizinho = e.vertDestino - 1;
+            int vizinhoRisco = e.valRisco;
+            if(vetRiscos[vertDestAtual] + vizinhoRisco < vetRiscos[vizinho]){
 
+            }
+        }
 
     }
 
@@ -43,9 +49,9 @@ vector<int> dijkstra(int V, vector<vector<Par>> grafo, int origem) {
 }
 
 
-vector<vector<Par>> capturaGrafo(int numVertTotal, int numArestTotal)
+vector<vector<Aresta>> capturaGrafo(int numVertTotal, int numArestTotal)
 {
-    vector<vector<Par>> grafo(numVertTotal);
+    vector<vector<Aresta>> grafo(numVertTotal);
     
     for(int i = 0; i < numArestTotal; i++){
         int vertOrigem, vertDestino, valRisco;
@@ -70,6 +76,6 @@ int main() {
     cout << "Informe o numero total de vertices e arestas: ";
     cin >> numVertTotal >> numArestTotal;
 
-    vector<vector<Par>> grafo = capturaGrafo(numVertTotal, numArestTotal);
+    vector<vector<Aresta>> grafo = capturaGrafo(numVertTotal, numArestTotal);
 
 }
